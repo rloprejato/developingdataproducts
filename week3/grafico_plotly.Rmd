@@ -1,0 +1,38 @@
+---
+title: "Week3 - assigment"
+author: "Roberto Lo Prejato"
+date: "30 aprile 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Agenda
+
+The purpose of this presentation is to show how to create a 3d interactive graph with the package plotly
+
+- First we prepare the data
+- Then we will create a 3d scatter plot
+
+
+## Load Data
+
+First we load the dataset airquality and exlude the raw with no information about variables we will use in the graph
+
+```{r cars, echo = TRUE}
+data(airquality)
+airquality <- airquality[complete.cases(airquality[,1:4]),]
+str(airquality)
+```
+
+
+## 3d graph with plotly
+
+```{r 3d-graph, include=TRUE, message=FALSE, warning=FALSE}
+library(plotly)
+plot_ly(data=airquality, x = ~Temp, y = ~Wind, z = ~Ozone,
+        type = "scatter3d",mode = "markers", color = ~Solar.R)
+```
+

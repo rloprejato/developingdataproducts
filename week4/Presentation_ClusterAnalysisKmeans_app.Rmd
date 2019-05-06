@@ -1,0 +1,102 @@
+---
+title: "Developing Data Products - Shiny App assignment"
+author: "Roberto Lo Prejato"
+date: "05 maggio 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Cluster Analysis with k-means Overview
+
+This is an RStudio shiny application developed as a part of final project in the Developing Data Products course in Coursera Data Science Specialization track. 
+
+The application show a cluster analysis with k-means and it's available at the link
+[clusteranalysiskmeans](https://rloprejato.shinyapps.io/clusteranalysiskmeans/)
+
+This analysis is an example of clustering customers from a wholesale customer database. 
+
+You can download the data I’m using from the Berkley UCI Machine Learning Repository [here](https://archive.ics.uci.edu/ml/datasets/Wholesale+customers])
+when you can find the data and attribute information.
+
+
+## Focus on Data
+
+```{r load data, include=FALSE}
+fileurl <- "https://archive.ics.uci.edu/ml/machine-learning-databases/00292/Wholesale%20customers%20data.csv"
+download.file(fileurl, destfile = "Wholesale customers data.csv")
+dataset <- read.csv("Wholesale customers data.csv",header=T)
+```
+Some information about data
+
+```{r cars, echo = TRUE}
+dataset$Channel <- as.factor(dataset$Channel)
+dataset$Region <- as.factor(dataset$Region)
+summary(dataset)
+```
+
+In the analysis we will use only the numeric variables.
+
+## Functionality
+
+Ih this app you can find:
+
+- A graph of total Within Sum of Squares for different number of cluster (k) to help to choose the correct one
+- the Number of the rows considered for the analysis
+- A heatmap to help to caracterize clusters
+
+```{r prepare data, include=FALSE}
+library(ggplot2);library(dplyr);library(tidyr)
+top.n.custs <- function (data,cols,n=5) {
+        idx.to.remove <-integer(0)
+        for (c in cols){
+                col.order <-order(data[,c],decreasing=T)
+                idx <-head(col.order, n)
+                idx.to.remove <-union(idx.to.remove,idx)
+        return(idx.to.remove)
+        }
+}
+top.custs <-top.n.custs(data = dataset,cols=3:8,n=5)
+length(top.custs)
+dataset[top.custs,]
+data.rm.top<-dataset[-c(top.custs),]
+#standardizzazione delle variabili
+rescale_df <- data.rm.top %>%
+        mutate(Fresh_scal = scale(Fresh),
+               Milk_scal = scale(Milk),
+               Grocery_scal = scale(Grocery),
+               Frozen_scal = scale(Frozen),
+               Detergents_Paper_scal = scale(Detergents_Paper),
+               Delicassen_scal = scale(Delicassen)) %>%
+        select(-c(1:8))
+set.seed(76964057)
+k <-kmeans(rescale_df, centers=5)
+center <- k$centers
+cluster <- c(1:5)
+center_df <- data.frame(cluster, center)
+center_reshape <- gather(center_df, features, values, Fresh_scal:Delicassen_scal)
+```
+
+```{r heatmap, echo=FALSE}
+library(RColorBrewer)
+# Create the palette
+hm.palette <-colorRampPalette(rev(brewer.pal(10, 'RdYlGn')),space='Lab')
+ggplot(data = center_reshape, aes(x = features, y = cluster, fill = values)) +
+        scale_y_continuous(breaks = seq(1, 7, by = 1)) +
+        geom_tile() +
+        coord_equal() +
+        scale_fill_gradientn(colours = hm.palette(90)) +
+        theme_classic()
+```
+
+## Available Interacions
+
+- Choose number of outliers to remove (default = 5)
+- Choose interval value of k (default = from 2 to 20)
+- Chooce is rescale variables (default = TRUE)
+- Choose number of clusters for the heatmap (default = 5)
+
+
+

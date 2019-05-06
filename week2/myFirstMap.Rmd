@@ -1,0 +1,39 @@
+---
+title: "Developing Data Products-Week 2-Assignment"
+author: "Roberto Lo Prejato"
+date: "29 aprile 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## My first map
+
+Using an R dataset i want to construct an interactive map with the package leafet
+
+##Load Data
+```{r load data}
+library(leaflet)
+data(breweries91)
+head(breweries91)
+class(breweries91)
+```
+
+I used the breweries dataset than contains the location (latitude and longitude) of `r dim(breweries91)[1]`  in Franconia; tt's a SpatialPointsDataFrame.
+
+With next chunks I construct my map, using the clusterOptions I group the breweries depending on the zoom.
+
+```{r myFirstMap}
+myMap <- breweries91  %>% 
+        leaflet() %>%
+        addTiles() %>%
+        addMarkers(popup= paste(breweries91$brewery, breweries91$web, sep = " "), 
+                   clusterOptions = markerClusterOptions())
+myMap
+```
+
+When you select a single point in the popup you can look the name and the web site of the brewery.
+
+

@@ -1,0 +1,12 @@
+name: clusteranalysiskmeans
+title:
+username:
+account: rloprejato
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 910427
+bundleId: 2064273
+url: https://rloprejato.shinyapps.io/clusteranalysiskmeans/
+when: 1557162167.08366
+asMultiple: FALSE
+asStatic: FALSE
