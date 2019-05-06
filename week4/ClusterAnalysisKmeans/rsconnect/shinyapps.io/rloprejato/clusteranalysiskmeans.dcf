@@ -5,8 +5,8 @@ account: rloprejato
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 910427
-bundleId: 2064273
+bundleId: 2064285
 url: https://rloprejato.shinyapps.io/clusteranalysiskmeans/
-when: 1557162167.08366
+when: 1557162589.79883
 asMultiple: FALSE
 asStatic: FALSE

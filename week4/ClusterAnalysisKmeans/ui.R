@@ -53,7 +53,7 @@ shinyUI(fluidPage(
                         textOutput("nrow"),
                         h2("Heatmap for the choosen number of clusters"),
                         plotOutput("plot2"),
-                        h5("You can find the code and documentation for this ap at the link below"),
+                        h5("You can find the code and documentation for this app at the link below"),
                         h6("https://github.com/rloprejato/developingdataproducts")
                 )
         )

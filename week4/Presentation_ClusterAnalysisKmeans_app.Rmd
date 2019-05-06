@@ -1,5 +1,5 @@
 ---
-title: "Developing Data Products - Shiny App assignment"
+title: "Developing Data Products Shiny App assignment"
 author: "Roberto Lo Prejato"
 date: "05 maggio 2019"
 output: ioslides_presentation
@@ -13,13 +13,12 @@ knitr::opts_chunk$set(echo = FALSE)
 
 This is an RStudio shiny application developed as a part of final project in the Developing Data Products course in Coursera Data Science Specialization track. 
 
-The application show a cluster analysis with k-means and it's available at the link
-[clusteranalysiskmeans](https://rloprejato.shinyapps.io/clusteranalysiskmeans/)
+The application shows a cluster analysis with k-means and it's available at the link
+[clusteranalysiskmeans](https://rloprejato.shinyapps.io/clusteranalysiskmeans/). For the code you can visit the github repository [here](https://github.com/rloprejato/developingdataproducts).
 
 This analysis is an example of clustering customers from a wholesale customer database. 
 
-You can download the data I’m using from the Berkley UCI Machine Learning Repository [here](https://archive.ics.uci.edu/ml/datasets/Wholesale+customers])
-when you can find the data and attribute information.
+You can download the data I’m using from the Berkley UCI Machine Learning Repository [here](https://archive.ics.uci.edu/ml/datasets/Wholesale+customers]), when you can find the data and attribute information.
 
 
 ## Focus on Data
@@ -31,22 +30,22 @@ dataset <- read.csv("Wholesale customers data.csv",header=T)
 ```
 Some information about data
 
-```{r cars, echo = TRUE}
+
+```{r cars, echo = FALSE}
 dataset$Channel <- as.factor(dataset$Channel)
 dataset$Region <- as.factor(dataset$Region)
 summary(dataset)
 ```
 
+
 In the analysis we will use only the numeric variables.
 
 ## Functionality
-
-Ih this app you can find:
+In this app you can find:
 
 - A graph of total Within Sum of Squares for different number of cluster (k) to help to choose the correct one
 - the Number of the rows considered for the analysis
 - A heatmap to help to caracterize clusters
-
 ```{r prepare data, include=FALSE}
 library(ggplot2);library(dplyr);library(tidyr)
 top.n.custs <- function (data,cols,n=5) {
@@ -78,8 +77,7 @@ cluster <- c(1:5)
 center_df <- data.frame(cluster, center)
 center_reshape <- gather(center_df, features, values, Fresh_scal:Delicassen_scal)
 ```
-
-```{r heatmap, echo=FALSE}
+```{r heatmap, echo=FALSE, out.height="300px", out.width="400px"}
 library(RColorBrewer)
 # Create the palette
 hm.palette <-colorRampPalette(rev(brewer.pal(10, 'RdYlGn')),space='Lab')
